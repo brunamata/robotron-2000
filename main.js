@@ -38,10 +38,8 @@ const pecasList = document.querySelectorAll('[data-peca]'); //nome das pecas do 
 const operacaoOption = document.querySelectorAll('[data-operacao]'); //todos os botoes com - e +
 const iniciarProdButton = document.querySelector('#producao');
 
-console.log(poderesList);
 
-
-
+//botao "Iniciar producao" zera os elementos, para que a pessoa monte seu robo do zero 
 iniciarProdButton.addEventListener("click", (event) =>{
     poderesList.forEach( (element) =>{
         element.textContent = parseInt(element.textContent) - parseInt(element.textContent);
@@ -50,7 +48,7 @@ iniciarProdButton.addEventListener("click", (event) =>{
     operacaoOption.forEach( (element) => {
         const divPeca = element.parentNode;
         const peca = divPeca.querySelector('[valorPeca]');
-        peca.value = parseInt(peca.value) - parseInt(peca.Value);
+        peca.value = "0";
     })
 })
 
@@ -81,12 +79,16 @@ function manipulaValorPeca(operacao, divPeca){
     } 
 }
 
+//a cada clique no botao de adicionar ou remover peca, atualiza os poderes do robo
+//recebe o nome da peca que foi alterada, a operacao e a div que se encontra
 function atualizaPoderes(peca , operacao, divPeca){
     const poderValues = pecas[peca];  //eh o objeto que contem os valores de poderes da causados pela peca especifica
     const pecaValue = divPeca.querySelector("[valorPeca]");
 
+    //os poderes aumentam se adiciona uma peca nova, ou diminuem, se eh retirada uma peca
+    //infelizmente, ele n funciona pra remover peca unitaria
     poderesList.forEach( (poderzinho) => {
-            if(operacao !== "subtrair"){
+            if(operacao === "somar"){
                 poderzinho.textContent = parseInt(poderzinho.textContent) + poderValues[poderzinho.dataset.poder];
             } else if(parseInt(pecaValue.value) > 0){
                 poderzinho.textContent = parseInt(poderzinho.textContent) - poderValues[poderzinho.dataset.poder];
